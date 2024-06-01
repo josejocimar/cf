@@ -5,7 +5,7 @@
   <title>CodePen - bar-code</title>
 </head>
 <style>
-#stream{
+.cs{
   position:absolute;
   top:0;
   width:500px;
@@ -18,10 +18,10 @@
 }
 </style>
 <body>
-  <h2>ver1.2</h2>
+  <h4>ver1.3</h4>
   <br>
   <video id="stream" style="width: 100vw; height: 100vh;"/>
-  
+  <div id="cs"></div>
 <script>
 (async () => {
     const stream = await navigator.mediaDevices.getUserMedia({
