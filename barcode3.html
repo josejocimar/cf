@@ -32,6 +32,9 @@
 <script>
 $(document).ready(function(){
   $('#abre_camera').click(function(event){
+    $('#modal1 .modal-title').text('...');
+	$('#modal1 .modal-body').html('<video id="stream" style="width: 100vw; height: 100vh;"/>')
+	$('#modal1').modal('show');
 
     (async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -54,13 +57,6 @@ $(document).ready(function(){
             alert(barcodes.map(barcode => barcode.rawValue));
         }, 1000);
     })();
-
-
-
-
-    $('#modal1 .modal-title').text('...');
-	$('#modal1 .modal-body').html('<video id="stream" style="width: 100vw; height: 100vh;"/>')
-	$('#modal1').modal('show');
   });
 });
 
