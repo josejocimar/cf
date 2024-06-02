@@ -1,10 +1,9 @@
-<!doctype html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="module">
-// WICG Shape Detection API
-// - https://wicg.github.io/shape-detection-api/
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - bar-code</title>
+<script>
 try {
   const start = document.getElementById("start");
   const video = document.getElementById("video");
@@ -46,7 +45,6 @@ try {
   };
   
   video.addEventListener("play", () => capture());
-  
   start.addEventListener("click", () => {
     start.disabled = true;
     (async () => {
@@ -63,7 +61,7 @@ try {
 } catch (err) {
   document.getElementById("result").textContent = err;
 }
-    </script>
+</script>
   </head>
   <body>
     BarcodeDetector demo: <button id="start">start</button>
