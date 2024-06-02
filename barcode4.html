@@ -57,7 +57,7 @@ $(document).ready(function(){
 	    })();
   });
 });
-$('#modal1').on('hidden.bs.modal',function(){
+$('#modal1').on('hide.bs.modal',function(){
    const video = document.querySelector("#stream");
    const mediaStream = video.srcObject;
    const tracks = mediaStream.getTracks(); 
