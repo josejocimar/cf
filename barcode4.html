@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CodePen - bar-code-detection-2</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+   <h1>versao 1.237</h1>
+    <br>
+    <div id="content"></div><button type="button" class="btn btn-primary" id="abre_camera">Escanear</button><br><button type="button" class="btn btn-primary" id="fecha_camera">Desativar</button>
+
+    <!-- modal final de encerramento de pedido ... -->
+    <div class="modal" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                ...
+                </div>
+                <div class="modal-footer">
+                <div class="actions"></div><button type="button" id="close_modal" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+$(document).ready(function(){
+  $('#abre_camera').click(function(event){
+    $('#modal1 .modal-title').text('...');
+	$('#modal1 .modal-body').html('<video id="stream" style="width: 80vh; height: 80vh;"/>')
+	$('#modal1').modal('show');
+	    (async () => {
+	        const stream = await navigator.mediaDevices.getUserMedia({
+	            video: {
+	                facingMode: {
+	                    ideal: "environment"
+	                }
+	            },
+	            audio: false
+	        });
+	
+	        const videoEl = document.querySelector("#stream");
+	        videoEl.srcObject = stream;
+	        await videoEl.play();
+	        const barcodeDetector = new BarcodeDetector({ formats: ["code_39", "codabar", "ean_13"] });
+	        window.setInterval(async () => {
+	            const barcodes = await barcodeDetector.detect(videoEl);
+	            if (barcodes.length <= 0) return;
+	            alert(barcodes.map(barcode => barcode.rawValue));
+	        },1000);
+	    })();
+  });
+});
+$('#modal1').on('hidden.bs.modal',function(){
+    alert('fechou janela');
+});
+$('#fecha_camera').click(function(event){
+const video = document.querySelector("#stream");
+const mediaStream = video.srcObject;
+const tracks = mediaStream.getTracks(); 
+tracks[0].stop();
+alert('desativou');
+});	
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
