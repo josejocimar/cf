@@ -33,9 +33,8 @@
 $(document).ready(function(){
   $('#abre_camera').click(function(event){
     $('#modal1 .modal-title').text('...');
-	$('#modal1 .modal-body').html('<video id="stream" style="width: 80vh; height: 100vh;"/>')
+	$('#modal1 .modal-body').html('<video id="stream" style="width: 80vh; height: 80vh;"/>')
 	$('#modal1').modal('show');
-
 	    (async () => {
 	        const stream = await navigator.mediaDevices.getUserMedia({
 	            video: {
@@ -49,16 +48,23 @@ $(document).ready(function(){
 	        const videoEl = document.querySelector("#stream");
 	        videoEl.srcObject = stream;
 	        await videoEl.play();
-	
 	        const barcodeDetector = new BarcodeDetector({ formats: ["code_39", "codabar", "ean_13"] });
 	        window.setInterval(async () => {
 	            const barcodes = await barcodeDetector.detect(videoEl);
 	            if (barcodes.length <= 0) return;
 	            alert(barcodes.map(barcode => barcode.rawValue));
-	        }, 1000);
+	        },1000);
 	    })();
   });
 });
+$('#modal1').on('hidden.bs.modal',function(){
+    const stream = $('#stream').srcObject;
+    const tracks = stream.getTracks();
+    tracks.forEach((track)=>{
+        track.stop();
+    });
+    $('#stream').srcObject = null;
+});	
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
